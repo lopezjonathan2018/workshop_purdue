@@ -101,8 +101,8 @@ derived_dataset_prep(
   description = 
     'This data was filtered using CoordinateCleaner and scrubr',
   source_url = 
-    'https://github.com/hzumbado/workshop_purdue/data/processed/gbif_clean.csv',
-  gbif_download_doi = '10.15468/dl.r9hsxv')
+  'https://github.com/lopezjonathan2018/workshop_purdue/data/processed/gbif_clean.csv',
+  gbif_download_doi = '10.15468/dl.9p64g8')
 
 # If output looks ok, run derived_dataset 
 
@@ -112,5 +112,8 @@ derived_dataset(
   description = 
     'This data was filtered using CoordinateCleaner and scrubr',
   source_url = 
-    'https://github.com/hzumbado/workshop_purdue/data/processed/gbif_clean.csv',
-  gbif_download_doi = '10.15468/dl.r9hsxv')
+    'https://github.com/lopezjonathan2018/workshop_purdue/data/processed/gbif_clean.csv',
+  gbif_download_doi = '10.15468/dl.9p64g8',
+  user = 'lopezjonathan2018',
+  pwd = "Cps44008262!")
+

@@ -68,7 +68,10 @@ plot(terra::vect(usa_cont))
 
 usa_cont |> 
   ggplot() +
-  geom_sf()
+  geom_sf(
+    fill = 'darkgreen', 
+    col = 'white') +
+  theme_bw()
 
 usa_cont |> 
   tm_shape() + 
@@ -124,12 +127,16 @@ plot(elevation_usa)
 slope <- 
   terrain(elevation_usa, "slope", unit="radians")
 
-plot(aspect)
+plot(slope)
 
 aspect <- 
   terrain(elevation_usa, "aspect", unit="radians")
 
-hillshade_usa <- shade(slope, aspect, 40, 270)
+plot(aspect)
+
+
+hillshade_usa <- 
+  shade(slope, aspect, 40, 270)
 
 plot(hillshade_usa, col = grey(0:100/100), legend = FALSE)
 plot(elevation_usa, col = terrain.colors(25, alpha = 0.35), add = TRUE)
@@ -144,36 +151,35 @@ writeRaster(
   'rasters/processed/hillshade_usa.tif',
   overwrite = TRUE)
 
-
 # maps --------------------------------------------------------------------
 
-plot(vect(usa_cont[usa_cont$state == 'California',]))
+plot(vect(usa_cont[usa_cont$state == 'Indiana',]))
 
-california <- 
+indiana <- 
   usa_cont |>
-  filter(state == 'California') |>
+  filter(state == 'Indiana') |>
   vect()
 
-california_counties <-
+indiana_counties <-
   counties_cont |> 
-  filter(state == 'California') |> 
+  filter(state == 'Indiana') |> 
   vect()
-  
+
 plot(
-  crop(hillshade_usa, california, mask = TRUE), 
+  crop(hillshade_usa, indiana, mask = TRUE), 
   col = grey(0:100/100), legend = FALSE)
 
-plot(crop(elevation_usa, california, mask = TRUE))
+plot(crop(elevation_usa, indiana, mask = TRUE), add = TRUE, alpha = 0.7)
 
-plot(california_counties, border = 'white', add = TRUE)
+plot(indiana_counties, border = 'white', add = TRUE)
 
 
-tm_shape(world) +
-  tm_grid(lines = FALSE) +
-  tm_polygons('gray') +
-  tm_shape(
-    hillshade_usa %>%
-      mask(california)) +
+# tm_shape(world) +
+#   tm_grid(lines = FALSE) +
+#   tm_polygons('gray') +
+tm_shape(
+  hillshade_usa %>%
+    mask(indiana)) +
   tm_grid(lines = FALSE) +
   tm_raster(
     palette = gray(0:100 / 100),
@@ -181,7 +187,7 @@ tm_shape(world) +
     legend.show = FALSE) +
   tm_shape(
     elevation_usa |>
-      crop(california, mask = TRUE),
+      crop(indiana, mask = TRUE),
     raster.downsample = FALSE) +
   tm_raster(
     title = 'Elevation (m)',
@@ -190,9 +196,8 @@ tm_shape(world) +
     alpha = 0.5) +
   tm_shape(
     usa_cont |>
-      filter(state == 'California'), is.master = T) +
+      filter(state == 'Indiana'), is.master = T) +
   tm_borders() +
   tm_layout(
     legend.outside = TRUE,
-    bg.color = 'lightblue')
-  
+    frame = FALSE)
