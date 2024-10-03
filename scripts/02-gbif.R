@@ -16,10 +16,13 @@ key <-
 
 key
 
-gbif_download <- 
+rgbif_download <- 
   occ_download(
-    pred('taxonKey', key), 
-    format = 'SIMPLE_CSV')
+    pred('taxonKey', key),
+    format = 'SIMPLE_CSV',
+    user = 'lopezjonathan2018',
+    pwd = 'Cps44008262!',
+    email = 'lopezjonathan2018@gmail.com')
     # user = NULL,
     # pwd = NULL,
     # email = NULL)
@@ -28,7 +31,7 @@ gbif_download
 
 # save citation -----------------------------------------------------------
 
-gbif_download |> 
+rgbif_download |> 
   write_rds(
     paste0(
       'data/raw/',
@@ -43,11 +46,11 @@ read_rds(
 
 # check download processing -----------------------------------------------
 
-occ_download_wait(gbif_download)
+occ_download_wait(rgbif_download)
 
 data <- 
   occ_download_get(
-    gbif_download, 
+    rgbif_download, 
     path = 'data/raw', 
     overwrite = TRUE) |> 
   occ_download_import()
